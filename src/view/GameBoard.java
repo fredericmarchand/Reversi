@@ -56,22 +56,23 @@ public class GameBoard extends JFrame {
 		}
 	}
 		
-		public void handleButtonPress(JButton source){
-			int row = -1, col = -1;
-			for (int i = 0; i < 8; i++) {
-				for (int j = 0; j < 8; j++) {
-					if (GUI[i][j] == source) {
-						row = i;
-						col = j;
-						break;
-					}
-				}
-				if (row != -1)
+	public void handleButtonPress(JButton source){
+		int row = -1, col = -1;
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if (GUI[i][j] == source) {
+					row = i;
+					col = j;
 					break;
+				}
 			}
-			map.handleSelection(row, col, Map.PLAYER1);
+			if (row != -1)
+				break;
+		}
+		if (map.handleSelection(row, col, Map.PLAYER1)) {
 			update(map);
 		}
+	}
 	
 	private void buildWindow(){//method used to construct the window
 		int rows = 8;
@@ -112,10 +113,12 @@ public class GameBoard extends JFrame {
 					case Map.WHITE:
 						GUI[x][y].setForeground(WHITE_COLOR);
 						GUI[x][y].setBackground(WHITE_COLOR);
+						GUI[x][y].setEnabled(false);
 						break;
 					case Map.BLACK:
 						GUI[x][y].setForeground(BLACK_COLOR);
 						GUI[x][y].setBackground(BLACK_COLOR);
+						GUI[x][y].setEnabled(false);
 						break;
 				}
 			}
