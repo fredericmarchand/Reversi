@@ -70,13 +70,13 @@ public class Map {
 		
 		for (int i = row-1; i <= row+1; ++i) {
 			for (int j = col-1; j <= col+1; ++j) {
-				//System.out.print(map[i][j] + " ");
 				if (i == row && j == col)
+					continue;
+				if (i < 0 || j < 0 || i >= 8 || j >= 8)
 					continue;
 				if (map[i][j] == opponent)
 					return true;
 			}
-			//System.out.println();
 		}
 		return false;
 	}
@@ -142,11 +142,8 @@ public class Map {
 		int rowInc = 0;
 		int colInc = 0;
 		
-		System.out.println("(" + row1 + "," + col1 + ") , (" + row2 + "," + col2 + ")");
-
 		map[row1][col1] = color;
 		while ((row1 + rowInc) != row2 || (col1 + colInc) != col2) {
-			System.out.println("Coloring");
 			if (rowDiff < 0) 
 				rowInc -= 1;
 			if (rowDiff > 0) 

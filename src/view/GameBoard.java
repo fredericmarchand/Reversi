@@ -22,6 +22,7 @@ import javax.swing.border.LineBorder;
 
 
 
+
 //import controller.Search;
 //import model.Coordinate;
 import model.Map;
@@ -34,11 +35,14 @@ public class GameBoard extends JFrame {
 	private JButton[][] GUI;
 	private Map map;
 
+	private int turn;
+	
 	private static Color WHITE_COLOR = Color.white;
 	private static Color BLACK_COLOR = Color.black;
 
 	public GameBoard(String title, Map map) {
 		super(title);
+		turn = Map.PLAYER1;
 		GUI = new JButton[8][8];
 		buildWindow();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -55,7 +59,19 @@ public class GameBoard extends JFrame {
 			}
 		}
 	}
+	
+	public void toggleTurn() {
+		if (turn == Map.PLAYER1)
+			turn = Map.PLAYER2;
+		else
+			turn = Map.PLAYER1;
+	}
 		
+	//Function for AI
+	public void clickButton(int row, int col) {
+		GUI[row][col].doClick();
+	}
+	
 	public void handleButtonPress(JButton source){
 		int row = -1, col = -1;
 		for (int i = 0; i < 8; i++) {
@@ -69,8 +85,9 @@ public class GameBoard extends JFrame {
 			if (row != -1)
 				break;
 		}
-		if (map.handleSelection(row, col, Map.PLAYER1)) {
+		if (map.handleSelection(row, col, turn)) {
 			update(map);
+			this.toggleTurn();
 		}
 	}
 	
