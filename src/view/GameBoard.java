@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -23,9 +24,10 @@ import javax.swing.border.LineBorder;
 
 
 
+
 //import controller.Search;
 //import model.Coordinate;
-import model.Map;
+import model.Othello;
 
 
 public class GameBoard extends JFrame {
@@ -33,16 +35,18 @@ public class GameBoard extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private JButton[][] GUI;
-	private Map map;
+	private Othello map;
+	private JLabel whiteScore;
+	private JLabel blackScore;
 
 	private int turn;
 	
 	private static Color WHITE_COLOR = Color.white;
 	private static Color BLACK_COLOR = Color.black;
 
-	public GameBoard(String title, Map map) {
+	public GameBoard(String title, Othello map) {
 		super(title);
-		turn = Map.PLAYER1;
+		turn = Othello.PLAYER1;
 		GUI = new JButton[8][8];
 		buildWindow();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -61,10 +65,10 @@ public class GameBoard extends JFrame {
 	}
 	
 	public void toggleTurn() {
-		if (turn == Map.PLAYER1)
-			turn = Map.PLAYER2;
+		if (turn == Othello.PLAYER1)
+			turn = Othello.PLAYER2;
 		else
-			turn = Map.PLAYER1;
+			turn = Othello.PLAYER1;
 	}
 		
 	//Function for AI
@@ -118,21 +122,50 @@ public class GameBoard extends JFrame {
         constraints.weighty = 1;
         layout.setConstraints(centerPanel, constraints);
 		add(centerPanel);
+
+        whiteScore = new JLabel("White: 2");
+        whiteScore.setFont(new Font("Impact", Font.BOLD, 24));
+        whiteScore.setForeground(new Color(0,0,139));
+		constraints.gridx = 1;
+		constraints.gridy = 1;
+        constraints.gridwidth = 1;
+        constraints.gridheight = 1;
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.weightx = 1;
+        constraints.weighty = 0;
+        constraints.anchor = GridBagConstraints.EAST;
+        layout.setConstraints(whiteScore, constraints);
+        add(whiteScore);
+
+		blackScore = new JLabel("Black: 2");
+		blackScore.setFont(new Font("Impact", Font.BOLD, 24));
+		blackScore.setForeground(new Color(0,0,139));
+		constraints.gridx = 2;
+		constraints.gridy = 1;
+        constraints.gridwidth = 1;
+        constraints.gridheight = 1;
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.weightx = 1;
+        constraints.weighty = 0;
+        constraints.anchor = GridBagConstraints.WEST;
+        layout.setConstraints(blackScore, constraints);
+        add(blackScore);
+		
 	}
 	
-	public void update(Map map){
+	public void update(Othello map){
 		for (int x = 0; x < map.getRows(); ++x) {
 			for (int y = 0; y < map.getColumns(); ++y) {
 				switch(map.getMap()[x][y])
 				{
-					case Map.EMPTY:
+					case Othello.EMPTY:
 						break;
-					case Map.WHITE:
+					case Othello.WHITE:
 						GUI[x][y].setForeground(WHITE_COLOR);
 						GUI[x][y].setBackground(WHITE_COLOR);
 						GUI[x][y].setEnabled(false);
 						break;
-					case Map.BLACK:
+					case Othello.BLACK:
 						GUI[x][y].setForeground(BLACK_COLOR);
 						GUI[x][y].setBackground(BLACK_COLOR);
 						GUI[x][y].setEnabled(false);
@@ -140,34 +173,7 @@ public class GameBoard extends JFrame {
 				}
 			}
 		}
-	}
-	
-	public static void main(String args[]) {
-		
-		//Manual controls
-		/*@SuppressWarnings("resource")
-		Scanner sc = new Scanner(System.in);
-		while(true){
-			String line = "";
-	        while(sc.hasNextLine()) {
-	        	line = sc.next(); 
-	        	break;
-	        }
-	        switch (line.charAt(0)){
-		        case 'w':
-		        	m.moveSnakeInDirection(Snake.UP);
-		        	break;
-		        case 'a':
-		        	m.moveSnakeInDirection(Snake.LEFT);
-		        	break;
-		        case 's':
-		        	m.moveSnakeInDirection(Snake.DOWN);
-		        	break;
-		        case 'd':
-		        	m.moveSnakeInDirection(Snake.RIGHT);
-		        	break;
-	        }
-			gb.update(m);
-		}*/
+		whiteScore.setText("White: "+ (map.getWhiteCount()));
+		blackScore.setText("Black: "+ (map.getBlackCount()));
 	}
 }

@@ -3,14 +3,14 @@ package controller;
 import java.util.LinkedList;
 
 import model.Coordinate;
-import model.Map;
+import model.Othello;
 import model.Node;
 import view.GameBoard;
 
 public class App {
 	
 	public static void main(String args[]) throws InterruptedException {
-		Map m = new Map();
+		Othello m = new Othello();
 		GameBoard gb = new GameBoard("Snake Game", m);
 		gb.setVisible(true);
 		gb.update(m);

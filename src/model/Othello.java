@@ -2,7 +2,7 @@ package model;
 
 import java.util.Random;
 
-public class Map {
+public class Othello {
 	
 	public static final int EMPTY = 0;
 	public static final int WHITE = 1;
@@ -28,7 +28,7 @@ public class Map {
 	
 	private int map[][];
 	
-	public Map(){
+	public Othello(){
 		rows = 8;
 		columns = 8;
 		map = new int[rows][columns];
@@ -53,6 +53,28 @@ public class Map {
 
 	public int[][] getMap() {
 		return map;
+	}
+	
+	public int getWhiteCount() {
+		int count = 0;
+		for (int x = 0; x < rows; ++x) {
+			for (int y = 0; y < columns; ++y) {
+				if (map[x][y] == Othello.WHITE)
+					count++;
+			}
+		}
+		return count;
+	}
+	
+	public int getBlackCount() {
+		int count = 0;
+		for (int x = 0; x < rows; ++x) {
+			for (int y = 0; y < columns; ++y) {
+				if (map[x][y] == Othello.BLACK)
+					count++;
+			}
+		}
+		return count;
 	}
 	
 	public static int randInt(int min, int max) {
@@ -239,14 +261,14 @@ public class Map {
 	}
 	
 	public static void main(String args[]) {
-		Map m = new Map();
+		Othello m = new Othello();
 		for (int i = 0; i < 8; ++i) {
 			for (int j = 0; j < 8; ++j) {
 				System.out.print(m.getMap()[i][j] + " ");
 			}
 			System.out.println();
 		}
-		System.out.println(m.validMove(3, 2, Map.BLACK));
+		System.out.println(m.validMove(3, 2, Othello.BLACK));
 	}
 	
 }
