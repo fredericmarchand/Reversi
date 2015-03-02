@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Othello {
@@ -23,17 +24,15 @@ public class Othello {
 	private static final int DOWN_LEFT 	= 6;
 	private static final int LEFT 		= 7;	
 	
-	private int rows; 		//amount of squares
-	private int columns;  	//amount of squares
+	public static final int ROWS = 8; 		
+	public static final int COLS = 8;  
 	
 	private int map[][];
 	
 	public Othello(){
-		rows = 8;
-		columns = 8;
-		map = new int[rows][columns];
-		for (int x = 0; x < rows; ++x) {
-			for (int y = 0; y < columns; ++y) {
+		map = new int[ROWS][COLS];
+		for (int x = 0; x < ROWS; ++x) {
+			for (int y = 0; y < COLS; ++y) {
 				map[x][y] = EMPTY;
 			}
 		}
@@ -43,22 +42,23 @@ public class Othello {
 		map[3][4] = BLACK;
 	}
 	
-	public int getRows() {
-		return rows;
+	public Othello(Othello o){
+		map = new int[ROWS][COLS];
+		for (int x = 0; x < ROWS; ++x) {
+			for (int y = 0; y < COLS; ++y) {
+				map[x][y] = o.getMap()[x][y];
+			}
+		}
 	}
-
-	public int getColumns() {
-		return columns;
-	}
-
+	
 	public int[][] getMap() {
 		return map;
 	}
 	
 	public int getWhiteCount() {
 		int count = 0;
-		for (int x = 0; x < rows; ++x) {
-			for (int y = 0; y < columns; ++y) {
+		for (int x = 0; x < ROWS; ++x) {
+			for (int y = 0; y < COLS; ++y) {
 				if (map[x][y] == Othello.WHITE)
 					count++;
 			}
@@ -68,8 +68,8 @@ public class Othello {
 	
 	public int getBlackCount() {
 		int count = 0;
-		for (int x = 0; x < rows; ++x) {
-			for (int y = 0; y < columns; ++y) {
+		for (int x = 0; x < ROWS; ++x) {
+			for (int y = 0; y < COLS; ++y) {
 				if (map[x][y] == Othello.BLACK)
 					count++;
 			}
@@ -258,6 +258,18 @@ public class Othello {
 				colorSquares(row, col, player, i);
 		}
 		return validMove;
+	}
+	
+	public ArrayList<Coordinate> getPossibleMoves(int player) {
+		ArrayList<Coordinate> possibleMoves = new ArrayList<Coordinate>();
+		for (int row = 0; row < 8; ++row) {
+			for (int col = 0; col < 8; ++col) {
+				if (validMove(row, col, player) == VALID_MOVE) {
+					possibleMoves.add(new Coordinate(row, col));
+				}
+			}
+		}
+		return possibleMoves;
 	}
 	
 	public static void main(String args[]) {

@@ -5,27 +5,36 @@ import java.util.LinkedList;
 
 public class Node {
 
+	private static final int MAX = 0;
+	private static final int MIN = 1;
+	
 	//State information
 	private Node previous;
 	private int row;
 	private int col;
+	private Othello map;
 	private int estimate;
 	private int steps;
+	private int label; //max or min
 	
-	public Node(int row, int col, Node previous) {
+	public Node(int row, int col, Othello map, Node previous, int label) {
 		this.setRow(row);
 		this.setCol(col);
+		this.map = new Othello(map);
 		steps = 0;
 		estimate = 0;
 		this.previous = previous;
+		this.label = label;
 	}
 	
-	public Node(int row, int col, int estimate, int steps, Node previous) {
+	public Node(int row, int col, Othello map, int estimate, int steps, int label, Node previous) {
 		this.setRow(row);
 		this.setCol(col);
+		this.map = new Othello(map);
 		this.setSteps(steps);
 		this.setEstimate(estimate);
 		this.previous = previous;
+		this.label = previous.label;
 	}
 
 	public int getRow() {
@@ -42,6 +51,10 @@ public class Node {
 
 	public void setCol(int col) {
 		this.col = col;
+	}
+	
+	public Othello getMap() {
+		return map;
 	}
 	
 	public boolean equalState(Node node) {
@@ -84,6 +97,17 @@ public class Node {
 
 	public void setEstimate(int estimate) {
 		this.estimate = estimate;
+	}
+	
+	public int getLabel() {
+		return label;
+	}
+	
+	public static int alternateLabel(int label) {
+		if (label == MAX) {
+			return MIN;
+		}
+		else return MAX;
 	}
 	
 }

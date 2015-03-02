@@ -43,6 +43,7 @@ public class GameBoard extends JFrame {
 	
 	private static Color WHITE_COLOR = Color.white;
 	private static Color BLACK_COLOR = Color.black;
+	private static Color GREEN_COLOR = new Color(51, 102, 51);
 
 	public GameBoard(String title, Othello map) {
 		super(title);
@@ -154,11 +155,13 @@ public class GameBoard extends JFrame {
 	}
 	
 	public void update(Othello map){
-		for (int x = 0; x < map.getRows(); ++x) {
-			for (int y = 0; y < map.getColumns(); ++y) {
+		for (int x = 0; x < Othello.ROWS; ++x) {
+			for (int y = 0; y < Othello.COLS; ++y) {
 				switch(map.getMap()[x][y])
 				{
 					case Othello.EMPTY:
+						GUI[x][y].setForeground(GREEN_COLOR);
+						GUI[x][y].setBackground(GREEN_COLOR);
 						break;
 					case Othello.WHITE:
 						GUI[x][y].setForeground(WHITE_COLOR);
