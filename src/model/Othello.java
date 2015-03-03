@@ -244,7 +244,7 @@ public class Othello {
 			valid |= findDirection(row, col, player, DOWN_LEFT);
 			valid |= findDirection(row, col, player, LEFT);
 		}
-		System.out.println(valid);
+		//System.out.println(valid);
 		if (valid) {
 			return VALID_MOVE;
 		}
@@ -262,9 +262,9 @@ public class Othello {
 	
 	public ArrayList<Coordinate> getPossibleMoves(int player) {
 		ArrayList<Coordinate> possibleMoves = new ArrayList<Coordinate>();
-		for (int row = 0; row < 8; ++row) {
-			for (int col = 0; col < 8; ++col) {
-				if (validMove(row, col, player) == VALID_MOVE) {
+		for (int row = 0; row < ROWS; ++row) {
+			for (int col = 0; col < COLS; ++col) {
+				if (map[row][col] == EMPTY && validMove(row, col, player) == VALID_MOVE) {
 					possibleMoves.add(new Coordinate(row, col));
 				}
 			}
@@ -272,15 +272,18 @@ public class Othello {
 		return possibleMoves;
 	}
 	
-	public static void main(String args[]) {
-		Othello m = new Othello();
-		for (int i = 0; i < 8; ++i) {
-			for (int j = 0; j < 8; ++j) {
-				System.out.print(m.getMap()[i][j] + " ");
+	public void printBoard() {
+		for (int i = 0; i < ROWS; ++i) {
+			for (int j = 0; j < COLS; ++j) {
+				System.out.print(map[i][j] + " ");
 			}
 			System.out.println();
 		}
-		System.out.println(m.validMove(3, 2, Othello.BLACK));
 	}
 	
+	public static int switchPlayer(int player) {
+		if (player == Othello.PLAYER1)
+			return Othello.PLAYER2;
+		else return Othello.PLAYER1;
+	}
 }
