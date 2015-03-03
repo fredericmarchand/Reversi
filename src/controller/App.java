@@ -7,7 +7,18 @@ import view.GameBoard;
 
 public class App {
 	
+	public static final int PLAYER_VS_AI 	= 0;
+	public static final int AI_VS_AI 		= 1;
+	
+	public static int gameType;
+	public static int playerTurn;
+	
 	public static void main(String args[]) throws InterruptedException {
+		
+		gameType = AI_VS_AI;
+		
+		playerTurn = Othello.PLAYER1;
+		
 		Othello m = new Othello();
 		GameBoard gb = new GameBoard("Snake Game", m);
 		gb.setVisible(true);
@@ -21,29 +32,47 @@ public class App {
 		
 		for (;;) {
 			Coordinate move;
-			if (m.getPossibleMoves(Othello.PLAYER1).size() != 0) {
-				move = Search.MiniMax(new Node(m, null, Node.MAX, Othello.PLAYER2), Othello.PLAYER1, false, 2);
-				m.handleSelection(move.getRow(), move.getCol(), Othello.PLAYER1);
-				//m.printBoard();
-				gb.update(m);
+			if (gameType == AI_VS_AI) {
+				if (m.getPossibleMoves(Othello.PLAYER1).size() != 0) {
+					move = Search.MiniMax(new Node(m, null, Node.MAX, Othello.PLAYER2), Othello.PLAYER1, false, 2);
+					m.handleSelection(move.getRow(), move.getCol(), Othello.PLAYER1);
+					gb.update(m);
+				}
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+		
+			if (gameType == PLAYER_VS_AI && playerTurn == Othello.PLAYER2) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				if (m.getPossibleMoves(Othello.PLAYER2).size() != 0) {
+					move = Search.MiniMax(new Node(m, null, Node.MAX, Othello.PLAYER1), Othello.PLAYER2, false, 2);
+					m.handleSelection(move.getRow(), move.getCol(), Othello.PLAYER2);
+					gb.update(m);
+				}
+				playerTurn = Othello.PLAYER1;
+			}
+	
+			if (gameType == AI_VS_AI) {
+				if (m.getPossibleMoves(Othello.PLAYER2).size() != 0) {
+					move = Search.MiniMax(new Node(m, null, Node.MAX, Othello.PLAYER1), Othello.PLAYER2, false, 2);
+					m.handleSelection(move.getRow(), move.getCol(), Othello.PLAYER2);
+					gb.update(m);
+				}
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 			
-			if (m.getPossibleMoves(Othello.PLAYER2).size() != 0) {
-				move = Search.MiniMax(new Node(m, null, Node.MAX, Othello.PLAYER1), Othello.PLAYER2, false, 1);
-				m.handleSelection(move.getRow(), move.getCol(), Othello.PLAYER2);
-				//m.printBoard();
-				gb.update(m);
-			}
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			
 		}
 	}
 }

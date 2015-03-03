@@ -6,9 +6,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-//import java.util.LinkedList;
-//import java.util.Scanner;
-
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,15 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-
-
-
-
-
-//import controller.Search;
-//import model.Coordinate;
+import controller.App;
 import model.Othello;
-
 
 public class GameBoard extends JFrame {
 
@@ -78,6 +68,11 @@ public class GameBoard extends JFrame {
 	}
 	
 	public void handleButtonPress(JButton source){
+		if (App.gameType == App.AI_VS_AI)
+			return;
+		if (App.playerTurn != Othello.PLAYER1)
+			return;
+		
 		int row = -1, col = -1;
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
@@ -90,9 +85,10 @@ public class GameBoard extends JFrame {
 			if (row != -1)
 				break;
 		}
-		if (map.handleSelection(row, col, turn)) {
+		if (map.handleSelection(row, col, Othello.PLAYER1)) {
 			update(map);
-			this.toggleTurn();
+			App.playerTurn = Othello.PLAYER2;
+			//this.toggleTurn();
 		}
 	}
 	
