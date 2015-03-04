@@ -94,7 +94,7 @@ public class Othello {
 			for (int j = col-1; j <= col+1; ++j) {
 				if (i == row && j == col)
 					continue;
-				if (i < 0 || j < 0 || i >= 8 || j >= 8)
+				if (i < 0 || j < 0 || i >= ROWS || j >= COLS)
 					continue;
 				if (map[i][j] == opponent)
 					return true;
@@ -106,7 +106,7 @@ public class Othello {
 	public boolean findDirection(int row, int col, int color, int direction) {
 		int rowInc = 0, colInc = 0;
 		
-		for (int i = 0; i < 8; ++i) {
+		for (int i = 0; i < ROWS; ++i) {
 			switch (direction) {
 			case UP_LEFT: 
 				rowInc -= 1;
@@ -138,7 +138,7 @@ public class Othello {
 				break;	
 			}
 			
-			if ((row+rowInc) < 0 || (col+colInc) < 0 || (row+rowInc) >= 8 || (col+colInc) >= 8) {
+			if ((row+rowInc) < 0 || (col+colInc) < 0 || (row+rowInc) >= ROWS || (col+colInc) >= COLS) {
 				//System.out.println(false);
 				return false;
 			}
@@ -214,7 +214,7 @@ public class Othello {
 				break;	
 			}
 			
-			if ((row+rowInc) < 0 || (col+colInc) < 0 || (row+rowInc) >= 8 || (col+colInc) >= 8) {
+			if ((row+rowInc) < 0 || (col+colInc) < 0 || (row+rowInc) >= ROWS || (col+colInc) >= COLS) {
 				break;
 			}
 			if (map[row + rowInc][col + colInc] == EMPTY) {

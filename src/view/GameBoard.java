@@ -44,8 +44,8 @@ public class GameBoard extends JFrame {
 		setSize(800, 800);
 		this.map = map;
 		
-		for (int row = 0; row < 8; row++){
-			for (int col = 0; col < 8; col++){
+		for (int row = 0; row < Othello.ROWS; row++){
+			for (int col = 0; col < Othello.COLS; col++){
 				GUI[row][col].addActionListener(new ActionListener() {//an action listener is created for each button on the board
 					public void actionPerformed(ActionEvent event) {
 						handleButtonPress((JButton)event.getSource());
@@ -74,8 +74,8 @@ public class GameBoard extends JFrame {
 			return;
 		
 		int row = -1, col = -1;
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
+		for (int i = 0; i < Othello.ROWS; i++) {
+			for (int j = 0; j < Othello.COLS; j++) {
 				if (GUI[i][j] == source) {
 					row = i;
 					col = j;
@@ -93,8 +93,8 @@ public class GameBoard extends JFrame {
 	}
 	
 	private void buildWindow(){//method used to construct the window
-		int rows = 8;
-		int columns = 8;
+		int rows = Othello.ROWS;
+		int columns = Othello.COLS;
 		GridBagLayout layout = new GridBagLayout();
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.insets = new Insets(5, 5, 5, 5); // default spacing

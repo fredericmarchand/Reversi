@@ -20,7 +20,7 @@ public class App {
 		playerTurn = Othello.PLAYER1;
 		
 		Othello m = new Othello();
-		GameBoard gb = new GameBoard("Snake Game", m);
+		GameBoard gb = new GameBoard("Othello", m);
 		gb.setVisible(true);
 		gb.update(m);
 		
@@ -34,7 +34,7 @@ public class App {
 			Coordinate move;
 			if (gameType == AI_VS_AI) {
 				if (m.getPossibleMoves(Othello.PLAYER1).size() != 0) {
-					move = Search.MiniMax(new Node(m, null, Node.MAX, Othello.PLAYER2), Othello.PLAYER1, false, 2);
+					move = Search.MiniMax(new Node(m, null, Node.MAX, Othello.PLAYER2), Othello.PLAYER1, true, 6);
 					m.handleSelection(move.getRow(), move.getCol(), Othello.PLAYER1);
 					gb.update(m);
 				}
@@ -52,7 +52,7 @@ public class App {
 					e.printStackTrace();
 				}
 				if (m.getPossibleMoves(Othello.PLAYER2).size() != 0) {
-					move = Search.MiniMax(new Node(m, null, Node.MAX, Othello.PLAYER1), Othello.PLAYER2, false, 2);
+					move = Search.MiniMax(new Node(m, null, Node.MAX, Othello.PLAYER1), Othello.PLAYER2, true, 2);
 					m.handleSelection(move.getRow(), move.getCol(), Othello.PLAYER2);
 					gb.update(m);
 				}
@@ -61,7 +61,7 @@ public class App {
 	
 			if (gameType == AI_VS_AI) {
 				if (m.getPossibleMoves(Othello.PLAYER2).size() != 0) {
-					move = Search.MiniMax(new Node(m, null, Node.MAX, Othello.PLAYER1), Othello.PLAYER2, false, 2);
+					move = Search.MiniMax(new Node(m, null, Node.MAX, Othello.PLAYER1), Othello.PLAYER2, true, 6);
 					m.handleSelection(move.getRow(), move.getCol(), Othello.PLAYER2);
 					gb.update(m);
 				}
@@ -71,8 +71,6 @@ public class App {
 					e.printStackTrace();
 				}
 			}
-			
-			
 		}
 	}
 }

@@ -15,28 +15,25 @@ public class Node {
 	private int estimate;
 	private int steps;
 	private int label; //max or min
+	private int alpha;
+	private int beta;
 	private ArrayList<Node> children;
 	
 	public Node(Othello map, Node previous, int label, int player) {
 		this.map = new Othello(map);
 		steps = 0;
-		estimate = 0;
+		
 		this.player = player;
 		this.parent = previous;
 		this.label = label;
+		if (label == MIN)
+			estimate = Integer.MAX_VALUE;
+		else
+			estimate = Integer.MIN_VALUE;
 		children = new ArrayList<Node>();
 		move = new Coordinate(0, 0);
-	}
-	
-	public Node(Othello map, int estimate, int steps, int label, int player, Node previous) {
-		this.map = new Othello(map);
-		this.setSteps(steps);
-		this.setEstimate(estimate);
-		this.parent = previous;
-		this.label = previous.label;
-		this.player = player;
-		children = new ArrayList<Node>();
-		move = new Coordinate(0, 0);
+		alpha = Integer.MIN_VALUE;
+		beta = Integer.MAX_VALUE;
 	}
 	
 	public Coordinate getMove() {
@@ -62,8 +59,8 @@ public class Node {
 	
 	public boolean equalState(Node node) {
 		boolean status = true;
-		for (int i = 0; i < 8; ++i) {
-			for (int j = 0; j < 8; ++j) {
+		for (int i = 0; i < Othello.ROWS; ++i) {
+			for (int j = 0; j < Othello.COLS; ++j) {
 				if (node.getMap().getMap()[i][j] != map.getMap()[i][j])
 					status = false;
 			}
@@ -150,6 +147,22 @@ public class Node {
 			return MIN;
 		}
 		else return MAX;
+	}
+
+	public int getAlpha() {
+		return alpha;
+	}
+
+	public void setAlpha(int alpha) {
+		this.alpha = alpha;
+	}
+
+	public int getBeta() {
+		return beta;
+	}
+
+	public void setBeta(int beta) {
+		this.beta = beta;
 	}
 	
 }
