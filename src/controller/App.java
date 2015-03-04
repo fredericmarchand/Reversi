@@ -34,7 +34,7 @@ public class App {
 			Coordinate move;
 			if (gameType == AI_VS_AI) {
 				if (m.getPossibleMoves(Othello.PLAYER1).size() != 0) {
-					move = Search.MiniMax(new Node(m, null, Node.MAX, Othello.PLAYER2), Othello.PLAYER1, true, 6);
+					move = Search.MiniMax(new Node(m, null, Node.MAX, Othello.PLAYER2), Othello.PLAYER1, true, Search.HEURISTIC_MOBILITY, 3);
 					m.handleSelection(move.getRow(), move.getCol(), Othello.PLAYER1);
 					gb.update(m);
 				}
@@ -52,7 +52,7 @@ public class App {
 					e.printStackTrace();
 				}
 				if (m.getPossibleMoves(Othello.PLAYER2).size() != 0) {
-					move = Search.MiniMax(new Node(m, null, Node.MAX, Othello.PLAYER1), Othello.PLAYER2, true, 2);
+					move = Search.MiniMax(new Node(m, null, Node.MAX, Othello.PLAYER1), Othello.PLAYER2, true, Search.HEURISTIC_SCORE, 2);
 					m.handleSelection(move.getRow(), move.getCol(), Othello.PLAYER2);
 					gb.update(m);
 				}
@@ -61,7 +61,7 @@ public class App {
 	
 			if (gameType == AI_VS_AI) {
 				if (m.getPossibleMoves(Othello.PLAYER2).size() != 0) {
-					move = Search.MiniMax(new Node(m, null, Node.MAX, Othello.PLAYER1), Othello.PLAYER2, true, 6);
+					move = Search.MiniMax(new Node(m, null, Node.MAX, Othello.PLAYER1), Othello.PLAYER2, true, Search.HEURISTIC_MOBILITY, 1);
 					m.handleSelection(move.getRow(), move.getCol(), Othello.PLAYER2);
 					gb.update(m);
 				}

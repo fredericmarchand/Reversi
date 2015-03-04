@@ -10,7 +10,10 @@ import model.Node;
 
 public class Search {
 	
-	public static Coordinate MiniMax(Node startState, int player, boolean alphaBeta, int depthBound){
+	public static final int HEURISTIC_SCORE = 0;
+	public static final int HEURISTIC_MOBILITY = 1;
+	
+	public static Coordinate MiniMax(Node startState, int player, boolean alphaBeta, int heuristic, int depthBound){
 			
 		List<Node> visited = new LinkedList<Node>();
 		Stack<Node> fringe = new Stack<Node>();
@@ -41,18 +44,11 @@ public class Search {
 				currNode.setBeta(currNode.getParent().getBeta());
 			}
 			
-			//Is this a terminal node?
-			if ((currNode.getMap().getPossibleMoves(Othello.PLAYER1).size() == 0  && 
-				 currNode.getMap().getPossibleMoves(Othello.PLAYER2).size() == 0) || 
-				 currNode.getSteps() >= depthBound) {
+			//Is this a terminal node? or max tree depth reached
+			if (isTerminalNode(currNode) || currNode.getSteps() >= depthBound) {
 				
 				//set estimate value based on heuristic (score in this case)
-				if (player == Othello.PLAYER1) {
-					currNode.setEstimate(currNode.getMap().getWhiteCount());
-				}
-				else if (player == Othello.PLAYER2) {
-					currNode.setEstimate(currNode.getMap().getBlackCount());
-				}
+				currNode.setEstimate(getEstimate(currNode, player, heuristic));
 				
 				while (true) {
 					
@@ -157,5 +153,63 @@ public class Search {
 		System.out.println("Coordinate: " + startState.getMaxChild().toString());
 		System.out.println("Estimate: " + startState.getEstimate());
 		return startState.getMaxChild();
+	}
+	
+	public static boolean isTerminalNode(Node node) {
+		return (node.getMap().getPossibleMoves(Othello.PLAYER1).size() == 0  && 
+				node.getMap().getPossibleMoves(Othello.PLAYER2).size() == 0);
+	}
+	
+	public static int getEstimate(Node node, int player, int heuristic) {
+		if (heuristic == HEURISTIC_SCORE)
+			return getScoreHeuristicEstimate(node, player);
+		else if (heuristic == HEURISTIC_MOBILITY)
+			return getMobilityHeuristicEstimate(node, player);
+		return 0;
+	}
+	
+	public static int getMobilityHeuristicEstimate(Node node, int player) {
+		int estimate = 0;
+		//Corners are the best positions
+		if (node.getMove().equals(new Coordinate(0, 0)) ||
+			node.getMove().equals(new Coordinate(0, Othello.COLS)) ||
+			node.getMove().equals(new Coordinate(Othello.ROWS, 0)) ||
+			node.getMove().equals(new Coordinate(Othello.ROWS, Othello.COLS)) ) {
+			estimate = 10000;
+		}
+		//Positions around the corners are horrible 
+		else if (node.getMove().equals(new Coordinate(0, 1)) ||
+			node.getMove().equals(new Coordinate(1, 0)) ||
+			node.getMove().equals(new Coordinate(1, 1)) ||
+			node.getMove().equals(new Coordinate(Othello.ROWS-2, Othello.COLS-1)) ||
+			node.getMove().equals(new Coordinate(Othello.ROWS-2, Othello.COLS-2)) ||
+			node.getMove().equals(new Coordinate(Othello.ROWS-1, Othello.COLS-2)) ||
+			node.getMove().equals(new Coordinate(Othello.ROWS-2, 1)) ||
+			node.getMove().equals(new Coordinate(Othello.ROWS-2, 0)) ||
+			node.getMove().equals(new Coordinate(Othello.ROWS-1, 1)) ||
+			node.getMove().equals(new Coordinate(1, Othello.COLS-2)) ||
+			node.getMove().equals(new Coordinate(0, Othello.COLS-2)) ||
+			node.getMove().equals(new Coordinate(1, Othello.COLS-1))) {
+			estimate =  -10000;
+		}
+		
+		if (estimate == 0){
+		//Otherwise return the amount of possible moves
+			estimate =  node.getMap().getPossibleMoves(node.getPlayer()).size();
+		}
+		
+		//if (player == node.getPlayer())
+		return estimate;
+		//return -estimate;
+	}
+
+	
+	public static int getScoreHeuristicEstimate(Node node, int player) {
+		int estimate = 0;
+		if (player == Othello.PLAYER1)
+			estimate = node.getMap().getWhiteCount();
+		else if (player == Othello.PLAYER2)
+			estimate = node.getMap().getBlackCount();
+		return estimate;	
 	}
 }
