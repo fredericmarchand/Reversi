@@ -31,6 +31,10 @@ public class Coordinate {
 		this.col = col;
 	}
 	
+	public boolean equals(Coordinate coord) {
+		return this.getRow() == coord.getRow() && this.getCol() == coord.getCol();
+	}
+	
 	public String toString() {
 		return "(" + getRow() + ", " + getCol() + ")";
 	}

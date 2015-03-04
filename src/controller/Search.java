@@ -174,33 +174,62 @@ public class Search {
 		if (node.getMove().equals(new Coordinate(0, 0)) ||
 			node.getMove().equals(new Coordinate(0, Othello.COLS)) ||
 			node.getMove().equals(new Coordinate(Othello.ROWS, 0)) ||
-			node.getMove().equals(new Coordinate(Othello.ROWS, Othello.COLS)) ) {
+			node.getMove().equals(new Coordinate(Othello.ROWS, Othello.COLS))) {
 			estimate = 10000;
 		}
 		//Positions around the corners are horrible 
-		else if (node.getMove().equals(new Coordinate(0, 1)) ||
-			node.getMove().equals(new Coordinate(1, 0)) ||
-			node.getMove().equals(new Coordinate(1, 1)) ||
-			node.getMove().equals(new Coordinate(Othello.ROWS-2, Othello.COLS-1)) ||
-			node.getMove().equals(new Coordinate(Othello.ROWS-2, Othello.COLS-2)) ||
-			node.getMove().equals(new Coordinate(Othello.ROWS-1, Othello.COLS-2)) ||
-			node.getMove().equals(new Coordinate(Othello.ROWS-2, 1)) ||
-			node.getMove().equals(new Coordinate(Othello.ROWS-2, 0)) ||
-			node.getMove().equals(new Coordinate(Othello.ROWS-1, 1)) ||
-			node.getMove().equals(new Coordinate(1, Othello.COLS-2)) ||
-			node.getMove().equals(new Coordinate(0, Othello.COLS-2)) ||
-			node.getMove().equals(new Coordinate(1, Othello.COLS-1))) {
-			estimate =  -10000;
+		else {
+			if (node.getMap().getMap()[0][0] == node.getPlayer() && 
+					(node.getMove().equals(new Coordinate(0, 1)) ||
+					 node.getMove().equals(new Coordinate(1, 0)) ||
+					 node.getMove().equals(new Coordinate(1, 1))))
+				estimate = 5000;
+			else if (node.getMap().getMap()[0][Othello.COLS-1] == node.getPlayer() &&
+						(node.getMove().equals(new Coordinate(1, Othello.COLS-2)) ||
+						 node.getMove().equals(new Coordinate(0, Othello.COLS-2)) ||
+						 node.getMove().equals(new Coordinate(1, Othello.COLS-1))))
+				estimate = 5000;
+			else if (node.getMap().getMap()[Othello.ROWS-1][0] == node.getPlayer() &&
+						(node.getMove().equals(new Coordinate(Othello.ROWS-2, 1)) ||
+						 node.getMove().equals(new Coordinate(Othello.ROWS-2, 0)) ||
+						 node.getMove().equals(new Coordinate(Othello.ROWS-1, 1))))
+				estimate = 5000;
+			else if (node.getMap().getMap()[Othello.ROWS-1][Othello.COLS-1] == node.getPlayer() &&
+					(node.getMove().equals(new Coordinate(Othello.ROWS-2, Othello.COLS-1)) ||
+					 node.getMove().equals(new Coordinate(Othello.ROWS-2, Othello.COLS-2)) ||
+					 node.getMove().equals(new Coordinate(Othello.ROWS-1, Othello.COLS-2))))
+				estimate = 5000;
+			else {
+				if (node.getMove().equals(new Coordinate(0, 1)) ||
+					node.getMove().equals(new Coordinate(1, 0)) ||
+					node.getMove().equals(new Coordinate(1, 1)) ||
+					node.getMove().equals(new Coordinate(Othello.ROWS-2, Othello.COLS-1)) ||
+					node.getMove().equals(new Coordinate(Othello.ROWS-2, Othello.COLS-2)) ||
+					node.getMove().equals(new Coordinate(Othello.ROWS-1, Othello.COLS-2)) ||
+					node.getMove().equals(new Coordinate(Othello.ROWS-2, 1)) ||
+					node.getMove().equals(new Coordinate(Othello.ROWS-2, 0)) ||
+					node.getMove().equals(new Coordinate(Othello.ROWS-1, 1)) ||
+					node.getMove().equals(new Coordinate(1, Othello.COLS-2)) ||
+					node.getMove().equals(new Coordinate(0, Othello.COLS-2)) ||
+					node.getMove().equals(new Coordinate(1, Othello.COLS-1))) {
+					estimate =  -10000;
+				}
+			}	
 		}
 		
-		if (estimate == 0){
-		//Otherwise return the amount of possible moves
-			estimate =  node.getMap().getPossibleMoves(node.getPlayer()).size();
+		if (estimate == 0) {
+			if (node.getMove().getRow() == 0 || 
+				node.getMove().getCol() == 0 || 
+				node.getMove().getRow() == Othello.ROWS-1 || 
+				node.getMove().getCol() == Othello.COLS-1) {
+				estimate = 5000;
+			}
+			else
+				//Otherwise return the amount of possible moves
+				estimate =  node.getMap().getPossibleMoves(node.getPlayer()).size();
 		}
 		
-		//if (player == node.getPlayer())
 		return estimate;
-		//return -estimate;
 	}
 
 	

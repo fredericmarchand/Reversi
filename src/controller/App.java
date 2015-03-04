@@ -34,7 +34,7 @@ public class App {
 			Coordinate move;
 			if (gameType == AI_VS_AI) {
 				if (m.getPossibleMoves(Othello.PLAYER1).size() != 0) {
-					move = Search.MiniMax(new Node(m, null, Node.MAX, Othello.PLAYER2), Othello.PLAYER1, true, Search.HEURISTIC_MOBILITY, 3);
+					move = Search.MiniMax(new Node(m, null, Node.MAX, Othello.PLAYER2), Othello.PLAYER1, true, Search.HEURISTIC_MOBILITY, 5);
 					m.handleSelection(move.getRow(), move.getCol(), Othello.PLAYER1);
 					gb.update(m);
 				}
