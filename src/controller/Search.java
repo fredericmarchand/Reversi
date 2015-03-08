@@ -172,9 +172,9 @@ public class Search {
 		int estimate = 0;
 		//Corners are the best positions
 		if (node.getMove().equals(new Coordinate(0, 0)) ||
-			node.getMove().equals(new Coordinate(0, Othello.COLS)) ||
-			node.getMove().equals(new Coordinate(Othello.ROWS, 0)) ||
-			node.getMove().equals(new Coordinate(Othello.ROWS, Othello.COLS))) {
+			node.getMove().equals(new Coordinate(0, Othello.COLS-1)) ||
+			node.getMove().equals(new Coordinate(Othello.ROWS-1, 0)) ||
+			node.getMove().equals(new Coordinate(Othello.ROWS-1, Othello.COLS-1))) {
 			estimate = 10000;
 		}
 		//Positions around the corners are horrible 
